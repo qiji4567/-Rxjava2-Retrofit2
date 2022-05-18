@@ -13,10 +13,9 @@ public class BaseException extends RuntimeException {
     protected final int errorCode;
 
     public BaseException(int errorCode, String cause) {
-        super(ErrorCode.getErrorMessage(errorCode), new Throwable(cause));
+        super(ErrorCode.getErrorMessage(errorCode, cause), new Throwable(cause));
         this.errorCode = errorCode;
     }
-
     public int getErrorCode() {
         return errorCode;
     }

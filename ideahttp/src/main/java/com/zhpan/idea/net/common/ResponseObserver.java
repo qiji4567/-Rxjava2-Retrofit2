@@ -39,7 +39,7 @@ public abstract class ResponseObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        LogUtils.e("Retrofit", e.getMessage());
+        LogUtils.e("Retrofit"+ e.getMessage());
         if (e instanceof HttpException) {     //   HTTP错误
             onException(ExceptionReason.BAD_NETWORK);
         } else if (e instanceof ConnectException

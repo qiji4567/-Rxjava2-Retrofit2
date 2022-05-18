@@ -41,12 +41,12 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, Obje
     }
 
     @Override
-    public  Object convert(ResponseBody value) throws IOException {
+    public Object convert(ResponseBody value) throws IOException {
         try {
             BasicResponse response = (BasicResponse) adapter.fromJson(value.charStream());
             if (response.getErrorCode() == SUCCESS) {
                 if (response.getData() == null)
-                    throw new NoDataExceptionException();
+                    throw new NoDataExceptionException(response.getErrorCode(), response.getErrorMsg());
                 return response.getData();
             } else if (response.getErrorCode() == TOKEN_EXPIRED) {
                 throw new TokenExpiredException(response.getErrorCode(), response.getErrorMsg());

@@ -32,6 +32,7 @@ public class LogUtils {
 
     /**
      * 得到tag（所在类.方法（L:行））
+     *
      * @return
      */
     private static String generateTag() {
@@ -73,6 +74,12 @@ public class LogUtils {
         }
     }
 
+    public static void d(String tag, String msg) {
+        if (showDebug) {
+            Log.d(generateTag(), tag + msg);
+        }
+    }
+
     public static void i(String msg) {
         if (showDebug) {
             String tag = generateTag();
@@ -105,6 +112,12 @@ public class LogUtils {
         if (showDebug) {
             String tag = generateTag();
             Log.e(tag, msg);
+        }
+    }
+
+    public static void e(String tag, String msg) {
+        if (showDebug) {
+            Log.e(generateTag(), tag + msg);
         }
     }
 
