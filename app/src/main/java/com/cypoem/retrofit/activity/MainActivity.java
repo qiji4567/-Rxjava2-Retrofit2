@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity {
 
     private Map<String, Object> getParameters() {
         Map<String, Object> map = new HashMap<>();
-        map.put("username", "110120");
+        map.put("username", "qj");
         map.put("password", "123456");
         return map;
     }

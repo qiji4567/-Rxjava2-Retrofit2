@@ -15,6 +15,7 @@
  */
 package com.zhpan.idea.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 
@@ -25,93 +26,106 @@ import android.util.Log;
  */
 public class LogUtils {
 
-    private static final boolean DEBUG = true;
+    public static String tagPrefix = "";
+    public static boolean showDebug = true;
+
 
     /**
-     * 获取当前类名
+     * 得到tag（所在类.方法（L:行））
      * @return
      */
-    private static String getClassName() {
-        // 这里的数组的index，即2，是根据你工具类的层级取的值，可根据需求改变
-        StackTraceElement thisMethodStack = (new Exception()).getStackTrace()[2];
-        String result = thisMethodStack.getClassName();
-        int lastIndex = result.lastIndexOf(".");
-        result = result.substring(lastIndex + 1, result.length());
-        return result;
+    private static String generateTag() {
+        StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[4];
+        String callerClazzName = stackTraceElement.getClassName();
+        callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
+        String tag = "%s.%s(L:%d)";
+        tag = String.format(tag, new Object[]{callerClazzName, stackTraceElement.getMethodName(), Integer.valueOf(stackTraceElement.getLineNumber())});
+        //给tag设置前缀
+        tag = TextUtils.isEmpty(tagPrefix) ? tag : tagPrefix + ":" + tag;
+        return tag;
     }
 
-
-    public static void w(String logString) {
-        if (DEBUG) {
-            Log.w(getClassName(), logString);
+    public static void v(String msg) {
+        if (showDebug) {
+            String tag = generateTag();
+            Log.v(tag, msg);
         }
     }
 
-    /**
-     * debug log
-     *
-     * @param msg
-     */
-    public static void d(String tag, String msg) {
-        if (DEBUG) {
+    public static void v(String msg, Throwable tr) {
+        if (showDebug) {
+            String tag = generateTag();
+            Log.v(tag, msg, tr);
+        }
+    }
+
+    public static void d(String msg) {
+        if (showDebug) {
+            String tag = generateTag();
             Log.d(tag, msg);
         }
     }
 
-    /**
-     * error log
-     *
-     * @param msg
-     */
-    public static void e(String tag, String msg) {
-        if (DEBUG) {
+    public static void d(String msg, Throwable tr) {
+        if (showDebug) {
+            String tag = generateTag();
+            Log.d(tag, msg, tr);
+        }
+    }
+
+    public static void i(String msg) {
+        if (showDebug) {
+            String tag = generateTag();
+            Log.i(tag, msg);
+        }
+    }
+
+    public static void i(String msg, Throwable tr) {
+        if (showDebug) {
+            String tag = generateTag();
+            Log.i(tag, msg, tr);
+        }
+    }
+
+    public static void w(String msg) {
+        if (showDebug) {
+            String tag = generateTag();
+            Log.w(tag, msg);
+        }
+    }
+
+    public static void w(String msg, Throwable tr) {
+        if (showDebug) {
+            String tag = generateTag();
+            Log.w(tag, msg, tr);
+        }
+    }
+
+    public static void e(String msg) {
+        if (showDebug) {
+            String tag = generateTag();
             Log.e(tag, msg);
         }
     }
 
-    /**
-     * debug log
-     *
-     * @param msg
-     */
-    public static void d(String msg) {
-        if (DEBUG) {
-            Log.d(getClassName(), msg);
+    public static void e(String msg, Throwable tr) {
+        if (showDebug) {
+            String tag = generateTag();
+            Log.e(tag, msg, tr);
         }
     }
 
-    /**
-     * debug log
-     *
-     * @param msg
-     */
-    public static void i(String msg) {
-        if (DEBUG) {
-            Log.i(getClassName(), msg);
-        }
-    }
-    /**
-     * error log
-     *
-     * @param msg
-     */
-    public static void e(String msg) {
-        if (DEBUG) {
-            Log.e(getClassName(), msg);
+    public static void wtf(String msg) {
+        if (showDebug) {
+            String tag = generateTag();
+            Log.wtf(tag, msg);
         }
     }
 
-    public static void i(String tag, String logString) {
-        if (DEBUG) {
-            Log.i(tag, logString);
-        }
-    }
-
-
-
-    public static void w(String tag, String logString) {
-        if (DEBUG) {
-            Log.w(tag, logString);
+    public static void wtf(String msg, Throwable tr) {
+        if (showDebug) {
+            String tag = generateTag();
+            Log.wtf(tag, msg, tr);
         }
     }
 
